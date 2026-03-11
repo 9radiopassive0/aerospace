@@ -45,7 +45,7 @@ automatically-unhide-macos-hidden-apps = false
 # even when they are invisible.
 # This config version is only available since 'config-version = 2'
 # Fallback value (if you omit the key): persistent-workspaces = []
-persistent-workspaces = ["1", "2", "3", "4"]
+persistent-workspaces = ["1", "2", "3", "4", "5", "6"]
 
 # A callback that runs every time binding mode changes
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -131,12 +131,16 @@ on-mode-changed = []
     alt-2 = 'workspace 2'
     alt-3 = 'workspace 3'
     alt-4 = 'workspace 4'
+    alt-5 = 'workspace 5'
+    alt-6 = 'workspace 6'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
     alt-shift-1 = 'move-node-to-workspace 1'
     alt-shift-2 = 'move-node-to-workspace 2'
     alt-shift-3 = 'move-node-to-workspace 3'
     alt-shift-4 = 'move-node-to-workspace 4'
+    alt-shift-5 = 'move-node-to-workspace 5'
+    alt-shift-6 = 'move-node-to-workspace 6'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
     alt-tab = 'workspace-back-and-forth'
@@ -165,22 +169,27 @@ on-mode-changed = []
     alt-shift-right = ['join-with right', 'mode main']
 
 
+# Workspace to monitor assignment - works with 1, 2, or 3 monitors
+# With 3 monitors: Monitor 1 (ws 1-2), Monitor 2 (ws 3-4), Monitor 3/built-in (ws 5-6)
+# With 2 monitors: Monitor 1 (ws 1-2), Monitor 2 (ws 3-4), remaining ws go to available monitors
+# With 1 monitor: All workspaces on that monitor
 [workspace-to-monitor-force-assignment]
-    1 = 1                            # Monitor sequence number from left to right. 1-based indexing
-    2 = 'main'                       # Main monitor
-    3 = 'secondary'                  # Non-main monitor in case when there are only two monitors
-    4 = 'built-in'                   # Case insensitive regex substring
-    5 = '^built-in retina display$'  # Case insensitive regex match
-    6 = ['secondary', 'dell']        # You can specify multiple patterns.
-                                     #   The first matching pattern will be used
+    1 = 1                            # First monitor - workspace 1
+    2 = 1                            # First monitor - workspace 2
+    3 = 2                            # Second monitor - workspace 3
+    4 = 2                            # Second monitor - workspace 4
+    5 = 3                            # Third monitor (or built-in) - workspace 5
+    6 = 3                            # Third monitor (or built-in) - workspace 6
+
+# iTerm on workspace 1 (first monitor)
 [[on-window-detected]]
     if.app-id = 'com.googlecode.iterm2'
     run = "move-node-to-workspace 1"
     
-    
+# Firefox on workspace 3 (second monitor if available, otherwise first)    
 [[on-window-detected]]
     if.app-id = 'org.mozilla.firefox'
-    run = "move-node-to-workspace 1"
+    run = "move-node-to-workspace 3"
     
     
 [[on-window-detected]]
